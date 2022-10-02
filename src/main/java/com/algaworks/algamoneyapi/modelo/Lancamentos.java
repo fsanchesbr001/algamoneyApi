@@ -1,0 +1,53 @@
+package com.algaworks.algamoneyapi.modelo;
+
+import com.algaworks.algamoneyapi.enums.Tipo;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+@Entity
+@Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public class Lancamentos {
+    @Id
+    @EqualsAndHashCode.Include
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long codigo;
+
+    @NotNull
+    @Column(nullable = false)
+    private String descricao;
+
+    @NotNull
+    @Column(name = "data_vencimento",nullable = false)
+    private LocalDate dataVencimento;
+
+    @Column(name = "data_pagamento",nullable = true)
+    private LocalDate dataPagamento;
+
+    @NotNull
+    @Column(nullable = false)
+    private BigDecimal valor;
+
+    @Column(nullable = true)
+    private String observacao;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Tipo tipo;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "codigo_categoria")
+    private Categorias categorias;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "codigo_pessoa")
+    private Pessoa pessoa;
+}
