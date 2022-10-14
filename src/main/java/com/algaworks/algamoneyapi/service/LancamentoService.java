@@ -5,7 +5,10 @@ import com.algaworks.algamoneyapi.modelo.Lancamentos;
 import com.algaworks.algamoneyapi.modelo.Pessoa;
 import com.algaworks.algamoneyapi.repository.LancamentoRepository;
 import com.algaworks.algamoneyapi.repository.PessoaRepository;
+import com.algaworks.algamoneyapi.repository.filter.LancamentoFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,8 +23,13 @@ public class LancamentoService {
     @Autowired
     private PessoaRepository pessoaRepository;
 
-    public List<Lancamentos> listarTudo(){
+    public Page<Lancamentos> pesquisar(LancamentoFilter lancamentoFilter, Pageable pageable){
+        return lancamentoRepository.filtrar(lancamentoFilter,pageable);
+    }
+    public List<Lancamentos> listarTudo()
+    {
         return lancamentoRepository.findAll();
+
     }
 
     public Optional<Lancamentos> listarPorCodigo(Long codigo)
@@ -37,4 +45,7 @@ public class LancamentoService {
         return lancamentoRepository.save(lancamentos);
     }
 
+    public void deletar(Long codigo) {
+        lancamentoRepository.deleteById(codigo);
+    }
 }
