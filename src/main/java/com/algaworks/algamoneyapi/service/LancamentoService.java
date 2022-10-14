@@ -22,7 +22,9 @@ public class LancamentoService {
 
     @Autowired
     private PessoaRepository pessoaRepository;
-
+/*
+* Método de Paginação
+* */
     public Page<Lancamentos> pesquisar(LancamentoFilter lancamentoFilter, Pageable pageable){
         return lancamentoRepository.filtrar(lancamentoFilter,pageable);
     }
