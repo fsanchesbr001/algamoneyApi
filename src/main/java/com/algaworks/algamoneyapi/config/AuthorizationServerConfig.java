@@ -27,11 +27,13 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
                 .withClient("angular")
-                .secret("$2a$10$/1QfyHZdxOghJkgDxv5TKOG9nz2Q2862bqfb2mw6bajcHN6vNeYnu")
-                .scopes("READ","WRITE")
+                .secret("$2a$10$/1QfyHZdxOghJkgDxv5TKOG9nz2Q2862bqfb2mw6bajcHN6vNeYnu")//@ngul@r0
+                .scopes("read","write")
                 .authorizedGrantTypes("password","refresh_token")
-                .accessTokenValiditySeconds(30)
+                .accessTokenValiditySeconds(300)
                 .refreshTokenValiditySeconds(3600 * 24);
+
+
     }
 
     @Override
