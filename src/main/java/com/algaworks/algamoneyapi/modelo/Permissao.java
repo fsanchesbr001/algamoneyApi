@@ -14,7 +14,6 @@ import javax.persistence.*;
 public class Permissao {
     @Id
     @EqualsAndHashCode.Include
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
 
     private String descricao;
