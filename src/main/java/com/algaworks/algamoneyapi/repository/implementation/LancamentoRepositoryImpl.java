@@ -1,6 +1,7 @@
 package com.algaworks.algamoneyapi.repository.implementation;
 
 import com.algaworks.algamoneyapi.modelo.Lancamentos;
+import com.algaworks.algamoneyapi.projection.ResumoLancamento;
 import com.algaworks.algamoneyapi.repository.LancamentoRepositoryQuery;
 import com.algaworks.algamoneyapi.repository.filter.LancamentoFilter;
 import org.apache.commons.lang3.ObjectUtils;
@@ -35,6 +36,14 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
         TypedQuery<Lancamentos> query = manager.createQuery(criteria);
         adicionarRestricoesPaginacao(query,pageable);
         return new PageImpl<>(query.getResultList(),pageable,total(lancamentoFilter));
+    }
+
+    @Override
+    public Page<ResumoLancamento> resumir(LancamentoFilter lancamentoFilter, Pageable pageable) {
+        CriteriaBuilder builder = manager.getCriteriaBuilder();
+        CriteriaQuery<ResumoLancamento> criteria = builder.createQuery(ResumoLancamento.class);
+        Root<Lancamentos> root = criteria.from(Lancamentos.class);
+        return null;
     }
 
     private Predicate[] criarRestricoes(LancamentoFilter lancamentoFilter,
