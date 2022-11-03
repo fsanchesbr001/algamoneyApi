@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -28,15 +29,13 @@ public class LancamentoController {
     private ApplicationEventPublisher publisher;
 
     @GetMapping
+    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and hasAuthority('SCOPE_READ')")
     public Page<Lancamentos> pesquisar(LancamentoFilter lancamentoFilter, Pageable pageable){
         return lancamentoService.pesquisar(lancamentoFilter,pageable);
     }
-    /*@GetMapping
-    public List<Lancamentos> listar(){
-        return lancamentoService.listarTudo();
-    }*/
 
     @GetMapping("/{codigo}")
+    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and hasAuthority('SCOPE_READ')")
     public ResponseEntity<Lancamentos> listarPorCodigo(@PathVariable Long codigo){
         Optional<Lancamentos> lancamento = lancamentoService.listarPorCodigo(codigo);
         return lancamento.isPresent()? ResponseEntity.ok(lancamento.get()) :
@@ -44,6 +43,7 @@ public class LancamentoController {
     }
 
     @PostMapping
+    @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and hasAuthority('SCOPE_WRITE')")
     public ResponseEntity<Lancamentos> salvar(@Valid @RequestBody Lancamentos lancamentos, HttpServletResponse response){
         Lancamentos lancamentoSalvo = lancamentoService.salvar(lancamentos);
         publisher.publishEvent(new RecursoCriadoEvent(this,response,lancamentoSalvo.getCodigo()));
@@ -52,6 +52,7 @@ public class LancamentoController {
 
     @DeleteMapping("/{codigo}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize(value = "hasAuthority('ROLE_REMOVER_LANCAMENTO') and hasAuthority('SCOPE_WRITE')")
     public void deletar(@PathVariable Long codigo){
         lancamentoService.deletar(codigo);
     }
