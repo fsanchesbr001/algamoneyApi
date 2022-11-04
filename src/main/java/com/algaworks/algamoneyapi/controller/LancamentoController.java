@@ -2,6 +2,7 @@ package com.algaworks.algamoneyapi.controller;
 
 import com.algaworks.algamoneyapi.event.RecursoCriadoEvent;
 import com.algaworks.algamoneyapi.modelo.Lancamentos;
+import com.algaworks.algamoneyapi.projection.ResumoLancamento;
 import com.algaworks.algamoneyapi.repository.filter.LancamentoFilter;
 import com.algaworks.algamoneyapi.service.LancamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,12 @@ public class LancamentoController {
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and hasAuthority('SCOPE_READ')")
     public Page<Lancamentos> pesquisar(LancamentoFilter lancamentoFilter, Pageable pageable){
         return lancamentoService.pesquisar(lancamentoFilter,pageable);
+    }
+
+    @GetMapping(params = "resumo")
+    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and hasAuthority('SCOPE_READ')")
+    public Page<ResumoLancamento> resumir(LancamentoFilter lancamentoFilter, Pageable pageable){
+        return lancamentoService.resumir(lancamentoFilter,pageable);
     }
 
     @GetMapping("/{codigo}")

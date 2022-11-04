@@ -1,6 +1,9 @@
 package com.algaworks.algamoneyapi.repository.implementation;
 
+import com.algaworks.algamoneyapi.modelo.Categorias_;
 import com.algaworks.algamoneyapi.modelo.Lancamentos;
+import com.algaworks.algamoneyapi.modelo.Lancamentos_;
+import com.algaworks.algamoneyapi.modelo.Pessoa_;
 import com.algaworks.algamoneyapi.projection.ResumoLancamento;
 import com.algaworks.algamoneyapi.repository.LancamentoRepositoryQuery;
 import com.algaworks.algamoneyapi.repository.filter.LancamentoFilter;
@@ -43,7 +46,23 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<ResumoLancamento> criteria = builder.createQuery(ResumoLancamento.class);
         Root<Lancamentos> root = criteria.from(Lancamentos.class);
-        return null;
+
+        criteria.select(builder.construct(ResumoLancamento.class,
+                root.get(Lancamentos_.codigo),
+                root.get(Lancamentos_.descricao),
+                root.get(Lancamentos_.dataVencimento),
+                root.get(Lancamentos_.dataPagamento),
+                root.get(Lancamentos_.valor),
+                root.get(Lancamentos_.tipo),
+                root.get(Lancamentos_.categorias).get(Categorias_.nome),
+                root.get(Lancamentos_.pessoa).get(Pessoa_.nome)));
+
+        Predicate[] predicates = criarRestricoes(lancamentoFilter,builder,root);
+        criteria.where(predicates);
+
+        TypedQuery<ResumoLancamento> query = manager.createQuery(criteria);
+        adicionarRestricoesPaginacao(query,pageable);
+        return new PageImpl<>(query.getResultList(),pageable,total(lancamentoFilter));
     }
 
     private Predicate[] criarRestricoes(LancamentoFilter lancamentoFilter,
@@ -78,7 +97,7 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
 
     }
 
-    private void adicionarRestricoesPaginacao(TypedQuery<Lancamentos> query, Pageable pageable) {
+    private void adicionarRestricoesPaginacao(TypedQuery<?> query, Pageable pageable) {
         int paginaAtual = pageable.getPageNumber();
         int registrosPorPagina = pageable.getPageSize();
         int primeiroRegistroPagina = paginaAtual * registrosPorPagina;
