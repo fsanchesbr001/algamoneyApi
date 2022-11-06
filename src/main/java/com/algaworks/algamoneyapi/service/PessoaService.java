@@ -1,10 +1,10 @@
 package com.algaworks.algamoneyapi.service;
 
+import com.algaworks.algamoneyapi.exception.PessoaInativaOuInexistenteException;
 import com.algaworks.algamoneyapi.modelo.Pessoa;
 import com.algaworks.algamoneyapi.repository.PessoaRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,7 +27,10 @@ public class PessoaService {
 
     public Pessoa buscaPessoaPorId(Long codigo){
         Pessoa pessoaSalva = pessoaRepository.findById(codigo).orElseThrow(
-                () -> new EmptyResultDataAccessException(1));
+                () -> new PessoaInativaOuInexistenteException());
+        if(!pessoaSalva.getAtivo()){
+            throw  new PessoaInativaOuInexistenteException();
+        }
         return  pessoaSalva;
     }
 }
