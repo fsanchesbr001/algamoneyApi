@@ -3,9 +3,12 @@ package com.algaworks.algamoneyapi.controller;
 import com.algaworks.algamoneyapi.event.RecursoCriadoEvent;
 import com.algaworks.algamoneyapi.modelo.Pessoa;
 import com.algaworks.algamoneyapi.repository.PessoaRepository;
+import com.algaworks.algamoneyapi.repository.filter.PessoaFilter;
 import com.algaworks.algamoneyapi.service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,11 +32,18 @@ public class PessoaController {
     @Autowired
     private PessoaService pessoaService;
 
-    @GetMapping
+    @GetMapping()
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_PESSOA') and hasAuthority('SCOPE_READ')")
     public List<Pessoa> listar(){
         return pessoaRepository.findAll();
     }
+
+    @GetMapping(params = "filtrar")
+    @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_PESSOA') and hasAuthority('SCOPE_READ')")
+    public Page<Pessoa> filtrar(PessoaFilter pessoaFilter, Pageable pageable){
+        return pessoaRepository.filtrar(pessoaFilter,pageable);
+    }
+
 
     @GetMapping("/{codigo}")
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_PESSOA') and hasAuthority('SCOPE_READ')")

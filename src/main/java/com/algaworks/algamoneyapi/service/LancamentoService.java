@@ -7,7 +7,9 @@ import com.algaworks.algamoneyapi.projection.ResumoLancamento;
 import com.algaworks.algamoneyapi.repository.LancamentoRepository;
 import com.algaworks.algamoneyapi.repository.PessoaRepository;
 import com.algaworks.algamoneyapi.repository.filter.LancamentoFilter;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,12 @@ public class LancamentoService {
 
     @Autowired
     private PessoaRepository pessoaRepository;
+
+    @Autowired
+    private PessoaService pessoaService;
+
+    @Autowired
+    private CategoriasSevice categoriasSevice;
 /*
 * Método de Paginação
 * */
@@ -54,5 +62,22 @@ public class LancamentoService {
 
     public void deletar(Long codigo) {
         lancamentoRepository.deleteById(codigo);
+    }
+
+    public Lancamentos atualizar(Long codigo, Lancamentos lancamento) {
+        Lancamentos lancamentoSalvo = this.buscaLancamentoPorId(codigo);
+        pessoaService.buscaPessoaPorId(lancamento.getPessoa().getCodigo());
+
+        categoriasSevice.buscaCategoriaPorId(lancamento.getCategorias().getCodigo());
+
+        BeanUtils.copyProperties(lancamento,lancamentoSalvo,"codigo");
+        lancamentoRepository.save(lancamentoSalvo);
+        return lancamentoSalvo;
+    }
+
+    public Lancamentos buscaLancamentoPorId(Long codigo){
+        Lancamentos lancamentoSalvo = lancamentoRepository.findById(codigo).orElseThrow(
+                () -> new EmptyResultDataAccessException(1));
+        return  lancamentoSalvo;
     }
 }

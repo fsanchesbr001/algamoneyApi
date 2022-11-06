@@ -63,4 +63,11 @@ public class LancamentoController {
     public void deletar(@PathVariable Long codigo){
         lancamentoService.deletar(codigo);
     }
+
+    @PutMapping("/{codigo}")
+    @PreAuthorize(value = "hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and hasAuthority('SCOPE_WRITE')")
+    public ResponseEntity<Lancamentos> atualizar(@PathVariable Long codigo, @Valid @RequestBody Lancamentos lancamento){
+        Lancamentos lancamentoSalvo = lancamentoService.atualizar(codigo,lancamento);
+        return ResponseEntity.status(HttpStatus.OK).body(lancamentoSalvo);
+    }
 }
