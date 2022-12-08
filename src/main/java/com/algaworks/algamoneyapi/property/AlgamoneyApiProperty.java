@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties("algamoney")
 public class AlgamoneyApiProperty {
 
-    private String originAllowed = "http://localhost:8000";
+    private String originAllowed = "http://localhost:4200";
     private  Seguranca seguranca = new Seguranca();
 
     @Getter
