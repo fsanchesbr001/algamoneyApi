@@ -28,9 +28,6 @@ public class PessoaService {
     public Pessoa buscaPessoaPorId(Long codigo){
         Pessoa pessoaSalva = pessoaRepository.findById(codigo).orElseThrow(
                 () -> new PessoaInativaOuInexistenteException());
-        if(!pessoaSalva.getAtivo()){
-            throw  new PessoaInativaOuInexistenteException();
-        }
         return  pessoaSalva;
     }
 }
