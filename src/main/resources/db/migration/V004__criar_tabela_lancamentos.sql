@@ -13,6 +13,5 @@ CREATE TABLE lancamentos (
     CONSTRAINT lancamentos_pessoas_FK FOREIGN KEY (codigo_pessoa) REFERENCES pessoas(codigo)
 )
     ENGINE=InnoDB
-    DEFAULT CHARSET=utf8mb4
-    COLLATE=utf8mb4_0900_ai_ci
+    DEFAULT CHARSET=utf8
     COMMENT='Tabela para cadastrar os lançamentos do sistema';
