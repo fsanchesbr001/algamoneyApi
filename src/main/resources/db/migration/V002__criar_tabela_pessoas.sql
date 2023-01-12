@@ -12,6 +12,5 @@ CREATE TABLE pessoas (
                                       CONSTRAINT pessoas_pk PRIMARY KEY (codigo)
 )
 ENGINE=InnoDB
-DEFAULT CHARSET=utf8mb4
-COLLATE=utf8mb4_0900_ai_ci
+DEFAULT CHARSET=utf8
 COMMENT='Cadastrar Pessoas';
