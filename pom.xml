@@ -11,7 +11,7 @@
     <groupId>com.algaworks</groupId>
     <artifactId>algamoney-api</artifactId>
     <version>1.0.0</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>algamoney-api</name>
     <description>algamoney-api</description>
     <properties>
@@ -101,11 +101,51 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
+        <!-- JasperReports -->
         <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-            <version>23.0.0</version>
-            <scope>compile</scope>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+            <version>6.20.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports-annotation-processors</artifactId>
+            <version>6.20.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports-functions</artifactId>
+            <version>6.20.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports-fonts</artifactId>
+            <version>6.20.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports-metadata</artifactId>
+            <version>6.20.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports-castor</artifactId>
+            <version>6.20.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports-chart-themes</artifactId>
+            <version>6.20.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports-chart-customizers</artifactId>
+            <version>6.20.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports-custom-visualization</artifactId>
+            <version>6.20.0</version>
         </dependency>
     </dependencies>
     <build>
@@ -116,5 +156,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
