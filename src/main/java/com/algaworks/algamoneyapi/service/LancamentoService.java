@@ -4,6 +4,7 @@ import com.algaworks.algamoneyapi.dto.LancamentoEstatisticaCategoria;
 import com.algaworks.algamoneyapi.dto.LancamentoEstatisticaDia;
 import com.algaworks.algamoneyapi.dto.LancamentoEstatisticaPessoa;
 import com.algaworks.algamoneyapi.exception.PessoaInativaOuInexistenteException;
+import com.algaworks.algamoneyapi.mail.Mailer;
 import com.algaworks.algamoneyapi.modelo.Lancamentos;
 import com.algaworks.algamoneyapi.modelo.Pessoa;
 import com.algaworks.algamoneyapi.projection.ResumoLancamento;
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
@@ -41,6 +43,9 @@ public class LancamentoService {
 
     @Autowired
     private CategoriasSevice categoriasSevice;
+
+    @Autowired
+    private Mailer mailer;
 /*
 * Método de Paginação
 * */
@@ -117,5 +122,9 @@ public class LancamentoService {
                 new JRBeanCollectionDataSource(dados));
 
        return JasperExportManager.exportReportToPdf(jasperPrint);
+    }
+    @Scheduled(cron = "0 30 5 * * *")
+    public void avisarSobreLancamentosVencidos(){
+        mailer.avisoLancamentosVencidos();
     }
 }

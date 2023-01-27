@@ -12,11 +12,21 @@ import org.springframework.stereotype.Component;
 public class AlgamoneyApiProperty {
 
     private String originAllowed = "http://localhost:4200";
-    private  Seguranca seguranca = new Seguranca();
+    private final Seguranca seguranca = new Seguranca();
+    private  final Mail mail = new Mail();
 
     @Getter
     @Setter
     public static class Seguranca{
         private boolean isEnableHttps;
+    }
+
+    @Getter
+    @Setter
+    public  static class Mail{
+        private String host;
+        private Integer port;
+        private String username;
+        private String password;
     }
 }
