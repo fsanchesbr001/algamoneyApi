@@ -1,21 +1,33 @@
 package com.algaworks.algamoneyapi.service;
 
+import com.algaworks.algamoneyapi.dto.LancamentoEstatisticaCategoria;
+import com.algaworks.algamoneyapi.dto.LancamentoEstatisticaDia;
+import com.algaworks.algamoneyapi.dto.LancamentoEstatisticaPessoa;
 import com.algaworks.algamoneyapi.exception.PessoaInativaOuInexistenteException;
+import com.algaworks.algamoneyapi.mail.Mailer;
 import com.algaworks.algamoneyapi.modelo.Lancamentos;
 import com.algaworks.algamoneyapi.modelo.Pessoa;
 import com.algaworks.algamoneyapi.projection.ResumoLancamento;
 import com.algaworks.algamoneyapi.repository.LancamentoRepository;
 import com.algaworks.algamoneyapi.repository.PessoaRepository;
 import com.algaworks.algamoneyapi.repository.filter.LancamentoFilter;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.io.InputStream;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.*;
 
 @Service
 public class LancamentoService {
@@ -31,6 +43,9 @@ public class LancamentoService {
 
     @Autowired
     private CategoriasSevice categoriasSevice;
+
+    @Autowired
+    private Mailer mailer;
 /*
 * Método de Paginação
 * */
@@ -79,5 +94,37 @@ public class LancamentoService {
         Lancamentos lancamentoSalvo = lancamentoRepository.findById(codigo).orElseThrow(
                 () -> new EmptyResultDataAccessException(1));
         return  lancamentoSalvo;
+    }
+
+    public List<LancamentoEstatisticaCategoria> porCategoria(){
+        LocalDate dataAtual = LocalDate.now();
+
+        return this.lancamentoRepository.porCategoria(dataAtual);
+    }
+
+    public List<LancamentoEstatisticaDia> porDia(){
+        LocalDate dataAtual = LocalDate.now();
+
+        return this.lancamentoRepository.porDia(dataAtual);
+    }
+
+    public byte[] relatorioPorPessoa(LocalDate inicio, LocalDate fim) throws JRException {
+       List<LancamentoEstatisticaPessoa> dados = lancamentoRepository.porPessoa(inicio,fim);
+       Map<String,Object> parametros = new HashMap<>();
+       parametros.put("DT_INICIO", Date.valueOf(inicio));
+       parametros.put("DT_FIM",Date.valueOf(fim));
+       parametros.put("REPORT_LOCALE",new Locale("pt","BR"));
+
+       InputStream inputStream = this.getClass().getResourceAsStream(
+                "/relatorios/lancamentos-por-pessoa.jasper");
+
+       JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream,parametros,
+                new JRBeanCollectionDataSource(dados));
+
+       return JasperExportManager.exportReportToPdf(jasperPrint);
+    }
+    @Scheduled(cron = "0 30 5 * * *")
+    public void avisarSobreLancamentosVencidos(){
+        mailer.avisoLancamentosVencidos();
     }
 }
