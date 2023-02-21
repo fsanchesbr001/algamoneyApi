@@ -86,6 +86,15 @@ public class AlgamoneyExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex,erros,new HttpHeaders(), HttpStatus.BAD_REQUEST,request );
     }
 
+    @ExceptionHandler({LancamentoInexistenteException.class})
+    public ResponseEntity<Object> handleLancamentoInexistenteException(LancamentoInexistenteException ex,
+                                                                      WebRequest request){
+        String mensagemUsuario = messageSource.getMessage("lancamento.nao-encontrado",null, LocaleContextHolder.getLocale());
+        String mensagemDesenvolvedor = ExceptionUtils.getRootCauseMessage(ex);
+        List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario,mensagemDesenvolvedor));
+        return handleExceptionInternal(ex,erros,new HttpHeaders(), HttpStatus.BAD_REQUEST,request );
+    }
+
     private List<Erro> criaListaErros(@NotNull BindingResult bindingResult){
         List<Erro> erros = new ArrayList<>();
         for (FieldError fieldError:bindingResult.getFieldErrors()) {

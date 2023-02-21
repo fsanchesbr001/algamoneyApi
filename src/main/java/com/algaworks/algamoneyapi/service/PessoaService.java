@@ -12,9 +12,15 @@ public class PessoaService {
     @Autowired
     private PessoaRepository pessoaRepository;
 
+
     public Pessoa atualizar(Long codigo, Pessoa pessoa){
         Pessoa pessoaSalva = buscaPessoaPorId(codigo);
-        BeanUtils.copyProperties(pessoa,pessoaSalva,"codigo");
+
+        pessoaSalva.getContatos().clear();
+        pessoaSalva.getContatos().addAll(pessoa.getContatos());
+        pessoaSalva.getContatos().forEach(contato-> contato.setPessoa(pessoaSalva));
+
+        BeanUtils.copyProperties(pessoa,pessoaSalva,"codigo","contatos");
         pessoaRepository.save(pessoaSalva);
         return pessoaSalva;
     }
@@ -29,5 +35,10 @@ public class PessoaService {
         Pessoa pessoaSalva = pessoaRepository.findById(codigo).orElseThrow(
                 () -> new PessoaInativaOuInexistenteException());
         return  pessoaSalva;
+    }
+
+    public Pessoa salvar(Pessoa pessoa) {
+        pessoa.getContatos().forEach(contato-> contato.setPessoa(pessoa));
+        return pessoaRepository.save(pessoa);
     }
 }

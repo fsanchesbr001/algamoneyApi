@@ -14,6 +14,7 @@ public class AlgamoneyApiProperty {
     private String originAllowed = "http://localhost:4200";
     private final Seguranca seguranca = new Seguranca();
     private  final Mail mail = new Mail();
+    private final FtpInfo ftpInfo = new FtpInfo();
 
     @Getter
     @Setter
@@ -28,5 +29,16 @@ public class AlgamoneyApiProperty {
         private Integer port;
         private String username;
         private String password;
+    }
+    @Getter
+    @Setter
+    public static class FtpInfo{
+        private String host;
+        private Integer port;
+        private String username;
+        private String password;
+        private String diretorioArquivos;
+        private String diretorioArquivosOrigem;
+        private String diretorioArquivosBaixados;
     }
 }

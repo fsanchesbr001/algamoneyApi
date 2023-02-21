@@ -37,7 +37,6 @@ public class LancamentoController {
     @Autowired
     private ApplicationEventPublisher publisher;
 
-
     @GetMapping
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and hasAuthority('SCOPE_READ')")
     public Page<Lancamentos> pesquisar(LancamentoFilter lancamentoFilter, Pageable pageable){

@@ -1,6 +1,7 @@
 package com.algaworks.algamoneyapi.modelo;
 
 import com.algaworks.algamoneyapi.enums.Tipo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -49,6 +50,7 @@ public class Lancamentos {
     private Categorias categorias;
 
     @NotNull
+    @JsonIgnoreProperties({"contatos","endereco"})
     @ManyToOne
     @JoinColumn(name = "codigo_pessoa")
     private Pessoa pessoa;
