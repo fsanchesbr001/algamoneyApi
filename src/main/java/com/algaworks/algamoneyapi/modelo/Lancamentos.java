@@ -29,14 +29,13 @@ public class Lancamentos {
     @Column(name = "data_vencimento",nullable = false)
     private LocalDate dataVencimento;
 
-    @Column(name = "data_pagamento",nullable = true)
+    @Column(name = "data_pagamento")
     private LocalDate dataPagamento;
 
     @NotNull
     @Column(nullable = false)
     private BigDecimal valor;
 
-    @Column(nullable = true)
     private String observacao;
 
     @NotNull

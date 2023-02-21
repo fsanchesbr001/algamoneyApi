@@ -21,7 +21,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @ControllerAdvice
@@ -37,7 +36,7 @@ public class AlgamoneyExceptionHandler extends ResponseEntityExceptionHandler {
                                                                   WebRequest request) {
         String mensagemUsuario = messageSource.getMessage("mensagem.invalida",null, LocaleContextHolder.getLocale());
         String mensagemDesenvolvedor = ex.getCause()!=null ?ex.getCause().toString() :ex.toString();
-        List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario,mensagemDesenvolvedor));
+        List<Erro> erros = List.of(new Erro(mensagemUsuario, mensagemDesenvolvedor));
         return handleExceptionInternal(ex,erros,headers, HttpStatus.BAD_REQUEST,request );
     }
 
@@ -55,7 +54,7 @@ public class AlgamoneyExceptionHandler extends ResponseEntityExceptionHandler {
                                                                        WebRequest request){
         String mensagemUsuario = messageSource.getMessage("recursos.nao-encontrado",null, LocaleContextHolder.getLocale());
         String mensagemDesenvolvedor = ex.getCause()!=null ?ex.getCause().toString() :ex.toString();
-        List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario,mensagemDesenvolvedor));
+        List<Erro> erros = List.of(new Erro(mensagemUsuario, mensagemDesenvolvedor));
         return handleExceptionInternal(ex,erros,new HttpHeaders(), HttpStatus.NOT_FOUND,request );
     }
 
@@ -64,7 +63,7 @@ public class AlgamoneyExceptionHandler extends ResponseEntityExceptionHandler {
                                                                        WebRequest request){
         String mensagemUsuario = messageSource.getMessage("recursos.nao-permitido",null, LocaleContextHolder.getLocale());
         String mensagemDesenvolvedor = ExceptionUtils.getRootCauseMessage(ex);
-        List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario,mensagemDesenvolvedor));
+        List<Erro> erros = List.of(new Erro(mensagemUsuario, mensagemDesenvolvedor));
         return handleExceptionInternal(ex,erros,new HttpHeaders(), HttpStatus.BAD_REQUEST,request );
     }
 
@@ -73,7 +72,7 @@ public class AlgamoneyExceptionHandler extends ResponseEntityExceptionHandler {
                                                                             WebRequest request){
         String mensagemUsuario = messageSource.getMessage("pessoa.inativa-nao-existente",null, LocaleContextHolder.getLocale());
         String mensagemDesenvolvedor = ExceptionUtils.getRootCauseMessage(ex);
-        List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario,mensagemDesenvolvedor));
+        List<Erro> erros = List.of(new Erro(mensagemUsuario, mensagemDesenvolvedor));
         return handleExceptionInternal(ex,erros,new HttpHeaders(), HttpStatus.BAD_REQUEST,request );
     }
 
@@ -82,7 +81,7 @@ public class AlgamoneyExceptionHandler extends ResponseEntityExceptionHandler {
                                                                             WebRequest request){
         String mensagemUsuario = messageSource.getMessage("categoria.inexistente",null, LocaleContextHolder.getLocale());
         String mensagemDesenvolvedor = ExceptionUtils.getRootCauseMessage(ex);
-        List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario,mensagemDesenvolvedor));
+        List<Erro> erros = List.of(new Erro(mensagemUsuario, mensagemDesenvolvedor));
         return handleExceptionInternal(ex,erros,new HttpHeaders(), HttpStatus.BAD_REQUEST,request );
     }
 
@@ -91,7 +90,7 @@ public class AlgamoneyExceptionHandler extends ResponseEntityExceptionHandler {
                                                                       WebRequest request){
         String mensagemUsuario = messageSource.getMessage("lancamento.nao-encontrado",null, LocaleContextHolder.getLocale());
         String mensagemDesenvolvedor = ExceptionUtils.getRootCauseMessage(ex);
-        List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario,mensagemDesenvolvedor));
+        List<Erro> erros = List.of(new Erro(mensagemUsuario, mensagemDesenvolvedor));
         return handleExceptionInternal(ex,erros,new HttpHeaders(), HttpStatus.BAD_REQUEST,request );
     }
 

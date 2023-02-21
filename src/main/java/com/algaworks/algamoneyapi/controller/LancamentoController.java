@@ -53,8 +53,7 @@ public class LancamentoController {
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and hasAuthority('SCOPE_READ')")
     public ResponseEntity<Lancamentos> listarPorCodigo(@PathVariable Long codigo){
         Optional<Lancamentos> lancamento = lancamentoService.listarPorCodigo(codigo);
-        return lancamento.isPresent()? ResponseEntity.ok(lancamento.get()) :
-               ResponseEntity.notFound().build();
+        return lancamento.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/estatisticas/categoria")
