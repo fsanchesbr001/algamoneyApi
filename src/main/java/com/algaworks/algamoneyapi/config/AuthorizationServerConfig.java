@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -35,7 +34,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
                 .withClient("angular")
-                .secret("$2a$10$/1QfyHZdxOghJkgDxv5TKOG9nz2Q2862bqfb2mw6bajcHN6vNeYnu")//@ngul@r0
+                .secret("$2a$10$kma8YdDOpD2r8m9gIkhLDuUd5XA2Wbj6QQkfdj5fx0Ufz3QfaO5IK")//@ngul@r0
                 .scopes("READ","WRITE")
                 .authorizedGrantTypes("password","refresh_token")
                 .accessTokenValiditySeconds(10*60)

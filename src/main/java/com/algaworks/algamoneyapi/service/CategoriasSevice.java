@@ -6,14 +6,27 @@ import com.algaworks.algamoneyapi.repository.CategoriasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CategoriasSevice {
-    @Autowired
-    CategoriasRepository categoriasRepository;
 
+    private final CategoriasRepository categoriasRepository;
+
+    @Autowired
+    public CategoriasSevice(CategoriasRepository categoriasRepository){
+        this.categoriasRepository = categoriasRepository;
+    }
     public Categorias buscaCategoriaPorId(Long codigo){
-        Categorias categoriaSalva = categoriasRepository.findById(codigo).orElseThrow(
+        return categoriasRepository.findById(codigo).orElseThrow(
                 () -> new CategoriaInexistenteException());
-        return  categoriaSalva;
+    }
+
+    public List<Categorias> listarTudo(){
+        return categoriasRepository.findAll();
+    }
+
+    public Categorias salvar(Categorias categoria){
+        return categoriasRepository.save(categoria);
     }
 }

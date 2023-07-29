@@ -1,14 +1,11 @@
 package com.algaworks.algamoneyapi.modelo;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.List;
 
 @Entity
 @Table(name = "pessoas")
@@ -30,8 +27,8 @@ public class Pessoa {
     @Embedded
     private Endereco endereco;
 
-    @JsonIgnoreProperties("pessoa")
+    /*@JsonIgnoreProperties("pessoa")
     @Valid
     @OneToMany(mappedBy = "pessoa",cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<Contato> contatos;
+    private List<Contato> contatos;*/
 }

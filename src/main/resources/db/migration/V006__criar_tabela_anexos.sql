@@ -3,6 +3,7 @@ CREATE TABLE anexos (
                      nome_arquivo varchar(500) NOT NULL,
                      data_upload DATE NOT NULL,
                      codigo_lancamento BIGINT NOT NULL,
+                     nome_arquivo_unico varchar(500) NOT NULL,
                      CONSTRAINT anexos_pk PRIMARY KEY (codigo),
                      CONSTRAINT anexos_FK FOREIGN KEY (codigo_lancamento) REFERENCES lancamentos(codigo) ON DELETE RESTRICT ON UPDATE RESTRICT
 )
