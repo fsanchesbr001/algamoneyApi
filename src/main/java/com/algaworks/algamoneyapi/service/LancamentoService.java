@@ -52,11 +52,7 @@ public class LancamentoService {
     public Page<Lancamentos> pesquisar(LancamentoFilter lancamentoFilter, Pageable pageable){
         return lancamentoRepository.filtrar(lancamentoFilter,pageable);
     }
-    public List<Lancamentos> listarTudo()
-    {
-        return lancamentoRepository.findAll();
 
-    }
 
     public Optional<Lancamentos> listarPorCodigo(Long codigo)
     {
@@ -91,9 +87,8 @@ public class LancamentoService {
     }
 
     public Lancamentos buscaLancamentoPorId(Long codigo){
-        Lancamentos lancamentoSalvo = lancamentoRepository.findById(codigo).orElseThrow(
+        return lancamentoRepository.findById(codigo).orElseThrow(
                 () -> new EmptyResultDataAccessException(1));
-        return  lancamentoSalvo;
     }
 
     public List<LancamentoEstatisticaCategoria> porCategoria(){
@@ -127,4 +122,6 @@ public class LancamentoService {
     public void avisarSobreLancamentosVencidos(){
         mailer.avisoLancamentosVencidos();
     }
+
+
 }

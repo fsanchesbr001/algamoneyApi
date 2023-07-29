@@ -1,6 +1,7 @@
 package com.algaworks.algamoneyapi.modelo;
 
 import com.algaworks.algamoneyapi.enums.Tipo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,14 +29,13 @@ public class Lancamentos {
     @Column(name = "data_vencimento",nullable = false)
     private LocalDate dataVencimento;
 
-    @Column(name = "data_pagamento",nullable = true)
+    @Column(name = "data_pagamento")
     private LocalDate dataPagamento;
 
     @NotNull
     @Column(nullable = false)
     private BigDecimal valor;
 
-    @Column(nullable = true)
     private String observacao;
 
     @NotNull
@@ -49,6 +49,7 @@ public class Lancamentos {
     private Categorias categorias;
 
     @NotNull
+    @JsonIgnoreProperties({"contatos","endereco"})
     @ManyToOne
     @JoinColumn(name = "codigo_pessoa")
     private Pessoa pessoa;

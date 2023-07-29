@@ -7,13 +7,21 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class PessoaService {
+
+    private final PessoaRepository pessoaRepository;
+
     @Autowired
-    private PessoaRepository pessoaRepository;
+    public PessoaService(PessoaRepository pessoaRepository){
+        this.pessoaRepository = pessoaRepository;
+    }
 
     public Pessoa atualizar(Long codigo, Pessoa pessoa){
         Pessoa pessoaSalva = buscaPessoaPorId(codigo);
+
         BeanUtils.copyProperties(pessoa,pessoaSalva,"codigo");
         pessoaRepository.save(pessoaSalva);
         return pessoaSalva;
@@ -26,8 +34,12 @@ public class PessoaService {
     }
 
     public Pessoa buscaPessoaPorId(Long codigo){
-        Pessoa pessoaSalva = pessoaRepository.findById(codigo).orElseThrow(
-                () -> new PessoaInativaOuInexistenteException());
-        return  pessoaSalva;
+        Optional<Pessoa> pessoaSalva = Optional.ofNullable(pessoaRepository.findById(codigo)
+                .orElseThrow(() -> new PessoaInativaOuInexistenteException()));
+        return  pessoaSalva.get();
+    }
+
+    public Pessoa salvar(Pessoa pessoa) {
+        return pessoaRepository.save(pessoa);
     }
 }

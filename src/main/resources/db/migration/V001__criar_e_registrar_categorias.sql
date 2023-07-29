@@ -7,8 +7,9 @@ CREATE TABLE categorias (
     DEFAULT CHARSET=utf8
     COMMENT='Categorias de lançamentos';
 
-INSERT INTO categorias(nome) values('Lazer');
-INSERT INTO categorias(nome) values('Supermercado');
+INSERT INTO categorias(nome) values('Vestuário');
+INSERT INTO categorias(nome) values('Transporte');
 INSERT INTO categorias(nome) values('Alimentação');
-INSERT INTO categorias(nome) values('Médicos');
+INSERT INTO categorias(nome) values('Empréstimos');
+INSERT INTO categorias(nome) values('Pensão Alimentícia');
 INSERT INTO categorias(nome) values('Outros');
