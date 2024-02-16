@@ -9,7 +9,7 @@ public class GeradorSenha {
     }
     public static void main(String[] args) {
         GeradorSenha geradorSenha = new GeradorSenha();
-        String senha = geradorSenha.geraSenha("@ngul@r0");
+        String senha = geradorSenha.geraSenha("123456");
         System.out.println(senha);
     }
 }

@@ -35,13 +35,13 @@ public class PessoaController {
     @GetMapping()
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_PESSOA') and hasAuthority('SCOPE_READ')")
     public List<Pessoa> listar(){
-        return pessoaRepository.findAll();
+        return pessoaService.listarTudo();
     }
 
     @GetMapping(params = "filtrar")
     @PreAuthorize(value = "hasAuthority('ROLE_PESQUISAR_PESSOA') and hasAuthority('SCOPE_READ')")
     public Page<Pessoa> filtrar(PessoaFilter pessoaFilter, Pageable pageable){
-        return pessoaRepository.filtrar(pessoaFilter,pageable);
+        return pessoaService.filtraRetorno(pessoaFilter,pageable);
     }
 
 
@@ -64,7 +64,7 @@ public class PessoaController {
     @PreAuthorize(value = "hasAuthority('ROLE_REMOVER_PESSOA') and hasAuthority('SCOPE_WRITE')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Long codigo){
-        pessoaRepository.deleteById(codigo);
+        pessoaService.deletar(codigo);
     }
 
     @PutMapping("/{codigo}")
