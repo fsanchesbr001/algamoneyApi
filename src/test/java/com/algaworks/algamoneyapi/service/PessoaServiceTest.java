@@ -66,7 +66,7 @@ public class PessoaServiceTest {
 
 
     @Test
-    void AtualizarPessoa(){
+    void atualizarPessoa(){
         PessoaService pessoaService = new PessoaService(pessoaRepository);
         Mockito.when(pessoaRepository.findById(1L)).thenReturn(Optional.of(pessoaSalva));
         pessoaService.atualizar(1L,novaPessoa);
@@ -74,7 +74,7 @@ public class PessoaServiceTest {
     }
 
     @Test
-    void AtualizarAtivo(){
+    void atualizarAtivo(){
         PessoaService pessoaService = new PessoaService(pessoaRepository);
         Mockito.when(pessoaRepository.findById(1L)).thenReturn(Optional.of(pessoaSalva));
         pessoaService.atualizarAtivo(1L,Boolean.TRUE);
@@ -82,15 +82,29 @@ public class PessoaServiceTest {
     }
 
     @Test
-    void SalvarPessoa(){
+    void salvarPessoa(){
         PessoaService pessoaService = new PessoaService(pessoaRepository);
         pessoaService.salvar(novaPessoa);
         Mockito.verify(pessoaRepository).save(novaPessoa);
     }
 
     @Test
-    void LancaPessoaInexistenteException(){
+    void lancaPessoaInexistenteException(){
         PessoaService pessoaService = new PessoaService(pessoaRepository);
         Assertions.assertThrows(PessoaInativaOuInexistenteException.class,()-> pessoaService.atualizar(1L,novaPessoa));
+    }
+
+    @Test
+    void deletarPessoa(){
+        PessoaService pessoaService = new PessoaService(pessoaRepository);
+        pessoaService.deletar(1L);
+        Mockito.verify(pessoaRepository).deleteById(1L);
+    }
+
+    @Test
+    void listarTodasPessoas(){
+        PessoaService pessoaService = new PessoaService(pessoaRepository);
+        pessoaService.listarTudo();
+        Mockito.verify(pessoaRepository).findAll();
     }
 }

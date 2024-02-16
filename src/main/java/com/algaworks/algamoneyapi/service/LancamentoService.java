@@ -9,7 +9,6 @@ import com.algaworks.algamoneyapi.modelo.Lancamentos;
 import com.algaworks.algamoneyapi.modelo.Pessoa;
 import com.algaworks.algamoneyapi.projection.ResumoLancamento;
 import com.algaworks.algamoneyapi.repository.LancamentoRepository;
-import com.algaworks.algamoneyapi.repository.PessoaRepository;
 import com.algaworks.algamoneyapi.repository.filter.LancamentoFilter;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -32,20 +31,23 @@ import java.util.*;
 @Service
 public class LancamentoService {
 
-    @Autowired
     private LancamentoRepository lancamentoRepository;
 
-    @Autowired
-    private PessoaRepository pessoaRepository;
-
-    @Autowired
     private PessoaService pessoaService;
 
-    @Autowired
     private CategoriasSevice categoriasSevice;
 
-    @Autowired
     private Mailer mailer;
+
+    @Autowired
+     public LancamentoService(LancamentoRepository lancamentoRepository,PessoaService pessoaService,
+                              CategoriasSevice categoriasSevice,Mailer mailer){
+        this.lancamentoRepository = lancamentoRepository;
+        this.pessoaService = pessoaService;
+        this.categoriasSevice = categoriasSevice;
+        this.mailer = mailer;
+    }
+
 /*
 * Método de Paginação
 * */
@@ -64,8 +66,8 @@ public class LancamentoService {
     }
 
     public Lancamentos salvar(Lancamentos lancamentos) {
-        Optional<Pessoa> pessoa = pessoaRepository.findById(lancamentos.getPessoa().getCodigo());
-        if(!pessoa.isPresent() || !pessoa.get().getAtivo()){
+        Pessoa pessoa = pessoaService.buscaPessoaPorId(lancamentos.getPessoa().getCodigo());
+        if(pessoa==null || !pessoa.getAtivo()){
             throw new PessoaInativaOuInexistenteException();
         }
         return lancamentoRepository.save(lancamentos);
